@@ -5,14 +5,14 @@ win([A,B,C,D]):-B=:=A+11, C=:=A+22, D=:=A+33,!.
 win([A,B,C,D]):-B=:=A+9, C=:=A+18, D=:=A+27,!.
 
 %fct de déplacement
-deplacement(A,B):-A=:=B+1,!.
-deplacement(A,B):-A=:=B+10,!.
-deplacement(A,B):-A=:=B+11,!.
-deplacement(A,B):-A=:=B+9,!.
-deplacement(A,B):-A=:=B-1,!.
-deplacement(A,B):-A=:=B-10,!.
-deplacement(A,B):-A=:=B-11,!.
-deplacement(A,B):-A=:=B-9,!.
+deplacement(A,B):- A=:=B+1,A<46,(A%10)<6!.
+deplacement(A,B):- A=:=B+10,,A<46,(A%10)<6!.
+deplacement(A,B):- A=:=B+11,,A<46,(A%10)<6!.
+deplacement(A,B):- A=:=B+9,,A<46,(A%10)<6!.
+deplacement(A,B):- A=:=B-1,,A>0,(A%10)<6!.
+deplacement(A,B):- A=:=B-10,,A>0,(A%10)<6!.
+deplacement(A,B):- A=:=B-11,,A>0,(A%10)<6!.
+deplacement(A,B):- A=:=B-9,,A>0,(A%10)<6!.
 
 %test de deplacement
 d(L1, L2, A, B, 1):-member(A, L1), deplacement(A,B), not(member(B, L1)), not(member(B, L2)), swap(L1, A, B, L3), tri(L3,L4),!.
