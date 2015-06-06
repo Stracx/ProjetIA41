@@ -3,17 +3,17 @@
 ligne(_,_,[],S,S).
 ligne([],[],_,S,S).
 
-ligne([],[X2|R2],[X3|R3],S,St):- X2 is X3, S2 is S-1, ligne([], R2, R3, S2,St),!.
+ligne([],[X2|R2],[X3|R3],S,St):- X2  =:=X3, S2 is S-1, ligne([], R2, R3, S2,St),!.
 ligne([],[X2|R2],[X3|R3],S,St):- X2<X3, ligne([], R2, [X3|R3], S,St),!.
 ligne([],[X2|R2],[X3|R3],S,St):- X2>X3, ligne([], [X2|R2], R3, S,St),!.
-ligne([X|R],[],[X3|R3],S,St):-  X is X3, S2 is (S+1),ligne(R, [], R3, S2,St),!.
+ligne([X|R],[],[X3|R3],S,St):-  X  =:=X3, S2 is (S+1),ligne(R, [], R3, S2,St),!.
 ligne([X|R],[],[X3|R3],S,St):- X<X3, ligne(R, [], [X3|R3], S,St),!.
 ligne([X|R],[],[X3|R3],S,St):- X>X3, ligne([X|R], [], R3, S,St),!.
 
-ligne([X|R],[X2|R2],[X3|R3],S,St):- X  is  X3, X2>X3, S2 is S+1,!, ligne(R,[X2|R2],R3,S2,St),!.
-ligne([X|R],[X2|R2],[X3|R3],S,St):- X  is  X3, X2<X3, S2 is S+1,!, ligne(R, R2, R3, S2,St),!.
-ligne([X|R],[X2|R2],[X3|R3],S,St):- X2  is  X3, X>X3, S2 is S-1,!, ligne([X|R], R2, R3, S2,St),!.
-ligne([X|R],[X2|R2],[X3|R3],S,St):- X2  is  X3, X<X3, S2 is S-1,!, ligne(R,R2,R3,S2,St),!.
+ligne([X|R],[X2|R2],[X3|R3],S,St):- X   =:= X3, X2>X3, S2 is S+1,!, ligne(R,[X2|R2],R3,S2,St),!.
+ligne([X|R],[X2|R2],[X3|R3],S,St):- X   =:= X3, X2<X3, S2  is S+1,!, ligne(R, R2, R3, S2,St),!.
+ligne([X|R],[X2|R2],[X3|R3],S,St):- X2   =:= X3, X>X3, S2  is S-1,!, ligne([X|R], R2, R3, S2,St),!.
+ligne([X|R],[X2|R2],[X3|R3],S,St):- X2   =:= X3, X<X3, S2  is S-1,!, ligne(R,R2,R3,S2,St),!.
 ligne([X|R],[X2|R2],[X3|R3],S,St):- X>X3, X2>X3,!, ligne([X|R], [X2|R2], R3, S,St),!.
 ligne([X|R],[X2|R2],[X3|R3],S,St):- X<X3, X2>X3,!, ligne(R, [X2|R2], [X3|R3], S,St),!.
 ligne([X|R],[X2|R2],[X3|R3],S,St):- X>X3, X2<X3,!, ligne([X|R], R2, [X3|R3], S,St),!.
@@ -67,6 +67,6 @@ ligne(B,N,[31, 32, 41, 42],0,S40),!,
 ligne(B,N,[32, 33, 42, 43],0,S41),!,
 ligne(B,N,[33, 34, 43, 44],0,S42),!,
 ligne(B,N,[34, 35, 44, 45],0,S43),!,
-S45 is (S0+S1+S2+S3+S4+S5+S6+S7+S8+S9+S10+S11+S12+S13+S14+S15+S16+S17+S18+S19+S20+S21+S22+S23+S24+S25+S26+S27+S28+S29+S30+S31+S32+S33+S34+S35+S36+S37+S38+S39+S40+S41+S42+S43),!,
+S45 is(S0+S1+S2+S3+S4+S5+S6+S7+S8+S9+S10+S11+S12+S13+S14+S15+S16+S17+S18+S19+S20+S21+S22+S23+S24+S25+S26+S27+S28+S29+S30+S31+S32+S33+S34+S35+S36+S37+S38+S39+S40+S41+S42+S43),!,
 score(0,0,S45,St),!.
 score(0,0,S,S).
