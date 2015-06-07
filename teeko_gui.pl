@@ -44,8 +44,6 @@ playChoice(4,B,N):-
 iaVSia(B,N,0,D0,D1):-
 	write('player '),write(0),write(' turn'),nl,
 	alphaBeta(0,D0,B,N,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	convert(From,Fx,Fy),
-	convert(To,Tx,Ty),
 	move(B,N,From,To,N,B1),
 	display_board(B1,N1),
 	changeTurn(0,NTurn),
@@ -82,23 +80,18 @@ iaVSplayer(B,N,1,D):-
 
 iaVSplayer(B,0,D):-
 	alphaBeta(0,D,B,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	convert(From,Fx,Fy),
-	convert(To,Tx,Ty),
 	move(B,From,To,N,B1),
 	display_board(B1,N),
 	changeTurn(0,NTurn),
 	iaVSplayer(B1,NTurn,D).
 
 % joueur vs ia
-% playerVSia(+Board,+FirstPlayer,+D)
+% playerVSia(+BoardJ1,BoardJ2,+FirstPlayer,+D)
 
-playerVSia(B,0,D):-
+playerVSia(B,N,0,D):-
 	write('joueur '),write(0),write(' tour'),nl,
-	askFrom(B,[FX,FY],0),
-	askN(B,[FX,FY],N),
+	askFrom(B,N,F,0),
 	askTo([FX,FY],N,[TX,TY]),
-	convert(From,FY,FX),
-	convert(To,TY,TX),
 	move(B,From,To,N,B1),
 	display_board(B1,N),
 	changeTurn(0,NTurn),
@@ -106,8 +99,6 @@ playerVSia(B,0,D):-
 
 playerVSia(B,1,D):-
 	alphaBeta(1,D,B,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	convert(From,Fx,Fy),
-	convert(To,Tx,Ty),
 	move(B,From,To,N,B1),
 	display_board(B1,N),
 	changeTurn(1,NTurn),
@@ -130,8 +121,58 @@ playerVSplayer(B,Turn):-
 	M \= [],
 	playerVSplayer(B1,NTurn).
 
+% demande la position de depart
+% askFrom(+BoardJ1,+BoardJ2,-From,+PlayerTurn)
+askFrom(B,N,From,Turn):-
+	write('entrez le numéro de la ligne'),nl,
+	ask_i(L,1,5),
+	write('entrez le numéro de la colonne'),nl,
+	ask_i(C,1,5),
+	LT1 is ((L1*10)-10),
+	T is (LT1+C1),!,
+	not(member(T,N)),
+	not(member(T,B)),
+	From = T.
 
+askFrom(B,From,Turn):-
+	write('Mauvaise position'),nl,
+	askFrom(B,N,From,Turn)
+	
+% change le tour du joueur
+	changeTurn(1,0).
+	changeTurn(0,1).
+	
+% demande la position d'arrivé
+% askTo(+From,-To)
 
+askTo(From,To):-
+	write('entrez le numéro de la ligne voulue'),nl,
+	ask_i(L1,1,5),
+	write('entrez le numéro de la colonne voulue'),nl,
+	ask_i(C1,1,5),
+	getPossibleMovement(From,N,Pos),
+	LT1 is ((L1*10)-10),
+	T is (LT1+C1),
+	member(T,Pos),!,
+	To = T .
+
+askTo(From,N,To):-
+	write('the position is not good'),nl,
+	askTo(From,N,To).
+	
+% demande un entier entre Min et Max
+% ask_i(-I,+Min,+Max)
+ask_i(I,Min,Max):-
+	read(R),
+	integer(R),
+	between(Min, Max, R), !,
+	I is R.
+	
+ask_i(I,Min,Max):-
+	writeln('Choix invalide. Reprecisez.'),
+	ask_i(I,Min,Max).
+	
+	
 % affiche le plateau de jeu
 % display_board(+BoardBlanc,+BoardNoir)
 
