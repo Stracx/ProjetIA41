@@ -59,7 +59,7 @@ alphaBeta(J, Adv, Prof, Alpha, Beta, Mvmt, OAdv, Value):-
 % Retourne le meilleur coup à jouer.
 searchBest(_J, _Adv, [], _Prof, Alpha, _Beta, Move, _, [Move,Alpha]) :- 
 	!.
-searchBest(J, Adv, [[X1, X2, X3, X4]|Mvmt], Prof, Alpha, Beta, R, OJ, OAdv, BestMove) :-
+searchBest(J, Adv, [[X1, X2, X3, X4]|Mvmt], Prof, Alpha, Beta, R, OAdv, BestMove) :-
 	move(Adversaire, From, To, N, NAdversaire),
 	getAdv(Joueur, OtherJoueurR),
 	alphaBeta(OtherJoueurR, Profondeur, NAdversaire, Alpha, Beta, _OtherCoup, OriginalAdversaire, Value)
