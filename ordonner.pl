@@ -3,7 +3,7 @@
 % ordonner(L,O)	qui ordonne la liste L dans l'ordre croissant et donne O
 
 ordonner([],[]).
-ordonner(L,[Min|RO]):- minimum(L,Min), enlever(Min, L, S2), ordonner(S2,RO).	%A chaque etape, enleve le minimum de sa place dans L et l'enleve de la 1ere place dans O
+ordonner(L,[Min|RO]):- minimum(L,Min), enlever(Min, L, S2), ordonner(S2,RO),!.	%A chaque etape, enleve le minimum de sa place dans L et l'enleve de la 1ere place dans O
 
 %minimum(L,E)	trouve le minimum E d'une liste L
 

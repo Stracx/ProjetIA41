@@ -1,5 +1,5 @@
-:- include('getPossibleMovement.pl').
-:- include('move.pl').
+:- include('getPossibleMovements.pl').
+%:- include('move.pl').
 
 
 % alphaBeta(+Joueur, +Profondeur, +Adversaire, +Alpha, +Beta, ?Move, +OriginalAdversaire, ?Value)
