@@ -1,7 +1,6 @@
 :- include('ordonner.pl').
 
-%getPossibleMovementL(+Joueur, +Adversaire, -ListPossibleMovements ) 
-
+%getPossibleMovementL(+Joueur, +Joueur, +Adversaire, -ListeMvmt ).
 getPossibleMovementL([X1, X2, X3, X4], A, L) :- 
  getPossibleMovementX(X1, [X1, X2, X3, X4], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X3, X4], A, L2, 8), getPossibleMovementX(X3, [X1, X2, X3, X4], A, L3, 8), getPossibleMovementX(X4,[X1, X2, X3, X4], A, L4, 8),
  merge(L1, L2, L22), merge(L3, L4, L44), merge(L22, L44, L).
