@@ -1,33 +1,6 @@
 :- include('getPossibleMovements.pl').
 :- include('testons.pl').
 
-
-
-% Renvoie en X le dernier élément de la liste (équivalent au prédicat 
-tailEqual([X], X).
-tailEqual([_|R], A):- tailEqual(R, A).
-
-% count(+List, +Value, -Count) : compte le nombre de Value dans List
-count([],_,0).
-count([X|T],X,Y):- count(T,X,Z), Y is 1+Z.
-count([X1|T],X,Z):- X1\=X,count(T,X,Z).
-
-
-%getAdv(+X, -Y) ! Y est l'adversaire de X
-getAdv(0,1).
-getAdv(1,0).
-
-getValP(0,1).
-getValP(1,-1).
-
-% eval = nombre des pièces de l'adversaire qui sont bloqué sous les piles du joueur P
-% eval(+Board, -Value, +Player)
-
-
- 
-	score(J, Adv, 0, S1), 
-
-
 % alphaBeta(+Joueur, +Adversaire, +Profondeur +Alpha, +Beta, ?Move, +OriginalAdv, ?Value)
 % Algorithme de Minmax avec simplification negamax et élagage Alpha-Beta
 %	Plus Profondeur est grand, plus le temps de calcul est élevé
@@ -77,9 +50,6 @@ cutBranches(Joueur,_Move, OriginalAdversaire, Value,Profondeur,Alpha,Beta,ListMo
 	Value =< Alpha, !, % structure "si, alors"
 	searchBest(Joueur,ListMoves,Adversaire,Profondeur,Alpha,Beta,R, OriginalAdversaire, BestMove).
 cutBranches(_Joueur, Move, _, Value, _Profondeur, _Alpha, _Beta, _ListMoves, _Adversaire, _R, [Move, Value]).
-
-
-originalAdversaire([0,0,0,0]).
 
 getFrom(B, [X,Y], L):- convert(I,X,Y), nth0(I, B, L).
 belongTo(B, [X,Y], P):- getFrom(B, [X,Y], L), tailEqual(L, P), !.
