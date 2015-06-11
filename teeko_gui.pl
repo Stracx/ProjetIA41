@@ -14,7 +14,7 @@ play:-
 
 playChoice(1,B,N):-
 	display_board(B,N),
-	playerVSplayer(B,N,0,0,0).
+	playerVSplayer(B,N,1,0,0).
 
 playChoice(2,B,N):-
 	write('choisissez une IA d un niveau entre 1 et 4'),nl,
@@ -74,7 +74,7 @@ iaVSia(B,N,NTour,D,D2):-
 playerVSia(B,N,NTour,D):-
 	NTour<8,
 	write('joueur '),write(NTour),write(' tour'),nl,
-	NTour mod 2 =:= 0,
+	NTour mod 2 =:= 1,
 	initJ(B,N,C,B2),
 	display_board(B1,N),
 	NTour2 is NTour + 1,
@@ -82,7 +82,7 @@ playerVSia(B,N,NTour,D):-
 
 playerVSia(N,B,NTour,D):-
 	NTour<8,
-	NTour mod 2 =:= 1,
+	NTour mod 2 =:= 0,
 	alphaBeta(1,D,B,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
 	initO(N,B,C,N2),
 	display_board(B,N2),
@@ -121,21 +121,20 @@ playerVSplayer(_,_,_,_,5):-
 	
 playerVSplayer(B,N,NTour,0,W):-
 	W<4,
-	NTour<8,
+	NTour<9,
 	write('joueur blanc '),write(NTour),write(' eme tour'),nl,
 	initJ(B,N,B2),
 	display_board(B2,N),
 	NTour2 is (NTour + 1),
 	win(B2,W2,4),
 	playerVSplayer(N,B2,NTour2,2,W2).
-
 	playerVSplayer(B,N,NTour,0,W):-
-	NTour is 8,
+	NTour is 9,
 	playerVSplayer(B,N,NTour,1,W).
 	
 playerVSplayer(B,N,NTour,2,W):-
 	W<4,
-	NTour<8,
+	NTour<9,
 	write('joueur noir '),write(NTour),write(' eme tour'),nl,
 	initJ(B,N,B2),
 	display_board(N,B2),
@@ -143,16 +142,15 @@ playerVSplayer(B,N,NTour,2,W):-
 	win(B2,W2,5),
 	playerVSplayer(N,B2,NTour2,0,W2).
 
-	playerVSplayer(B,N,NTour,2):-
-	NTour is 8,
+	playerVSplayer(B,N,NTour,2,W):-
+	NTour is 9,
 	playerVSplayer(B,N,NTour,1,W).
 	
 	
 playerVSplayer(B,N,NTour,1,0):-
-	W<4,
 	write('joueur blanc '),write(NTour),write(' eme tour'),nl,
 	askFrom(B,N,F),
-	askTo(B,N,To),
+	askTo(B,N,F,To),
 	move(B,F,To,B2),
 	display_board(B2,N),
 	NTour2 is (NTour + 1),
@@ -160,10 +158,9 @@ playerVSplayer(B,N,NTour,1,0):-
 	playerVSplayer(N,B2,NTour2,3,W2).
 	
 playerVSplayer(B,N,NTour,3,0):-
-	W<4,
 	write('joueur noir '),write(NTour),write(' eme tour'),nl,
 	askFrom(B,N,F),
-	askTo(B,N,To),
+	askTo(B,N,F,To),
 	move(B,V,To,B2),
 	display_board(N,B2),
 	NTour2 is (NTour + 1),
@@ -177,15 +174,15 @@ askFrom(B,N,From):-
 	ask_i(L,1,5),
 	write('entrez le numéro de la colonne'),nl,
 	ask_i(C,1,5),
-	LT1 is ((L1*10)-10),
-	T is (LT1+C1),!,
+	LT1 is ((L*10)-10),
+	T is (LT1+C),!,
 	not(member(T,N)),
 	member(T,B),
-	From = T.
+	From is T,!.
 
 askFrom(B,N,From):-
 	write('Mauvaise position'),nl,
-	askFrom(B,N,From).
+	askFrom(B,N,From),!.
 	
 
 %init pour les 8 premiers tours pour un joueur initJ et pour l'ia initO
@@ -220,19 +217,19 @@ askTo(B,N,From,To):-
 	LT1 is ((L1*10)-10),	
 	T is (LT1+C1),
 	not(member(T,N)),
-	not(member(T,B)),!,
+	not(member(T,B)),
 	To is T.
 
 askTo(B,N,From,To):-
 	write('mauvaise position'),nl,
-	askTo(B,NFrom,To).
+	askTo(B,N,From,To),!.
 	
 % demande un entier entre Min et Max
 % ask_i(-I,+Min,+Max)
 ask_i(I,Min,Max):-
 	read(R),
 	integer(R),
-	between(Min, Max, R), !,
+	between(Min, Max, R),
 	I is R.
 	
 ask_i(I,Min,Max):-
