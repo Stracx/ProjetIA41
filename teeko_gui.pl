@@ -216,7 +216,7 @@ askTo(From,Adv,To):-
 	To = T .
 
 askTo(From,N,To):-
-	write('mauvaise position'),nl,
+	write('the position is not good'),nl,
 	askTo(From,N,To).
 	
 % demande un entier entre Min et Max
