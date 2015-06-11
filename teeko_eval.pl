@@ -1,5 +1,5 @@
-:- include('getPossibleMovement.pl').
-:- include('move.pl').
+:- include('getPossibleMovements.pl').
+:- include('testons.pl').
 
 % display whole lists
 %set_prolog_flag(toplevel_print_options, [quoted(true), portray(true), max_depth(100), priority(699)]).
@@ -34,21 +34,11 @@ getValP(1,-1).
 
 % eval = nombre des pièces de l'adversaire qui sont bloqué sous les piles du joueur P
 % eval(+Board, -Value, +Player)
-score([], 0, _).
-score([X|R], V2, P):- 
-	tailEqual(X, P), 
-	getAdv(P, Adv), 
-	count(X, Adv, Y), 
-	score(R, V, P), 
-	V2 is V+Y,!.
-	
-score([_|R], V, P):- score(R, V, P).
 
-eval(B, V, P):- 
-	getAdv(P,Adv), 
-	score(B,Vp,P), 
-	score(B,VAd, Adv), 
-	V is Vp-VAd.
+
+ 
+	score(J, Adv, 0, S1), 
+
 
 
 % alphaBeta(+Player, +Depth, +Board, +Alpha, +Beta, ?Move, +OriginalBoard, ?Value)
@@ -57,16 +47,16 @@ eval(B, V, P):-
 %	Plus Depth est grand, plus le temps de calcul est élevé
 
 % Appel simplifié du prédicat de base
-alphaBeta(Player, Depth, Board, Move, Value):- 
-	alphaBeta(Player, Depth, Board, -10000, 10000, Move, Board, Value).
+alphaBeta(J, Adv, Depth, Move, OJ, OAdv, Val):- 
+	alphaBeta(J, Adv, Depth, -10000, 10000, Move, OJ, OAdv, Val).
 
 % Cas d'arrêt quand la profondeur Depth atteint 0
-alphaBeta(Player, 0, Board, _Alpha, _Beta, _Move, _OriginalBoard, Value) :-
-	!, eval(Board, Value, Player).
+alphaBeta(J, Adv, 0, _Alpha, _Beta, Move, OJ, OAdv, Val) :-
+	!, score(J, Adv, 0, Val).
 
 % Si Board est la Board original avec laquel on a appelé le prédicat, on ne décrémente pas D et on cherche le meilleur mouvement possible
-alphaBeta(Player, Depth, Board, Alpha, Beta, Move, Board, Value) :-
-	!, allMove(Board, Player, Moves),
+alphaBeta(J, Adv, Depth, Alpha, Beta, Moves, OJ, OAdv, Value) :-
+	!, getPossibleMovementL(J, Adv, Moves),
 	Alpha1 is -Beta,
 	Beta1 is -Alpha,
 	searchBest(Player, Moves, Board, Depth, Alpha1, Beta1, nil, Board, [Move, Value]),!.
