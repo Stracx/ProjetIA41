@@ -5,9 +5,8 @@ play:-
 	
 	write('1: joueur vs joueur'),nl,
 	write('2: joueur vs ia'),nl,
-	write('3: ia vs joueur'),nl,
-	write('4: ia vs ia'),nl,
-	ask_i(C,1,4),
+	write('3: ia vs ia'),nl,
+	ask_i(C,1,3),
 	playChoice(C,[],[]).
 
 % playChoice(+Choice,+BoardB, +BoardN)
@@ -23,12 +22,6 @@ playChoice(2,B,N):-
 	playerVSia(B,N,0,D).
 
 playChoice(3,B,N):-
-	write('choisissez une IA d un niveau entre 1 et 4'),nl,
-	ask_i(D,1,4),
-	display_board(B,N),
-	iaVSplayer(B,N,0,D).
-
-playChoice(4,B,N):-
 	write('choisissez une IA d un niveau entre 1 et 4 pour l ia0'),nl,
 	ask_i(D0,1,4),
 	write('choisissez une IA d un niveau entre 1 et 4 pour ia10'),nl,
@@ -76,7 +69,7 @@ iaVSia(B,N,NTour,D,D2):-
 	iaVSia(B,N,NTour,D,D2,1).
 
 % ia vs joueur
-% iaVSplayer(+BoardJ1,BoardJ2,+NbdeTour,+Profondeur)
+% playerVSia(+BoardJ1,BoardJ2,+NbdeTour,+Profondeur)
 playerVSia(B,N,NTour,D):-
 	NTour<8,
 	write('joueur '),write(NTour),write(' tour'),nl,
@@ -117,7 +110,7 @@ playerVSia(N,B,NTour,D,1):-
 	NTour2 is NTour + 1,
 	playerVSia(B1,N,NTour2,D).
 
-	% joueur contre joueur
+% joueur contre joueur
 % playerVSplayer(+BoardJ1,BoardJ2,+NbdeTour)
 
 playerVSplayer(B,N,NTour,0):-
@@ -180,7 +173,7 @@ askFrom(B,N,From):-
 	askFrom(B,N,From).
 	
 
-%init
+%init pour les 8 premiers tours pour un joueur initJ et pour l'ia initO
 initJ(B,N,B2):- 
 write('entrez le numéro de la ligne voulue'),nl,
 	ask_i(L,1,5),
