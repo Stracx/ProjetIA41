@@ -7,7 +7,7 @@
 
 % Appel simplifié du prédicat de base
 alphaBeta(J, Adv, Prof, Depl, Val):- 
-	alphaBeta(J, Adv, Prof, -10000, 10000, Depl, Adv, Val).
+	alphaBeta(J, Adv, Prof, -10000, 10000, Depl, J, Val).
 
 % Cas d'arrêt quand la profondeur Depth atteint 0
 alphaBeta(J, Adv, 0, _Alpha, _Beta, _Depl, _OAdv, Val) :-
@@ -50,6 +50,6 @@ cutBranches(J, Adv, _Depl, OAdv, Val,Prof,Alpha,Beta,Mvmt,R,BestDepl) :-
 	Val =< Alpha, !, % structure "si, alors"
 	searchBest(J, Adv, Mvmt,Prof,Alpha,Beta,R, OAdv, BestDepl),!.
 
-cutBranches(_J, _, Depl, _OAdv, Val, _Prof, _Alpha, _Beta, _LMvmt, _R, [Depl, Val]). 
+cutBranches(_J, _, Depl, _OAdv, Val, _Prof, _Alpha, _Beta, _Mvmt, _R, [Depl, Val]). 
 
 
