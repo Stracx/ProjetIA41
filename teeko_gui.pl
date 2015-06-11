@@ -1,4 +1,5 @@
 :- include('teeko_eval.pl').
+:- include('teeko_move.pl').
 
 % play
 play:-
@@ -13,7 +14,7 @@ play:-
 
 playChoice(1,B,N):-
 	display_board(B,N),
-	playerVSplayer(B,N,0,0).
+	playerVSplayer(B,N,0,0,0).
 
 playChoice(2,B,N):-
 	write('choisissez une IA d un niveau entre 1 et 4'),nl,
@@ -111,49 +112,63 @@ playerVSia(N,B,NTour,D,1):-
 	playerVSia(B1,N,NTour2,D).
 
 % joueur contre joueur
-% playerVSplayer(+BoardJ1,BoardJ2,+NbdeTour)
+% playerVSplayer(+BoardJ1,+BoardJ2,+NbdeTour,+TourDuJoueur,+CdtDeVictoire)
 
-playerVSplayer(B,N,NTour,0):-
+playerVSplayer(_,_,_,_,4):-
+	write('joueur blanc gagne !!'),!.
+playerVSplayer(_,_,_,_,5):-
+	write('joueur noir gagne !!'),!.
+	
+playerVSplayer(B,N,NTour,0,W):-
+	W<4,
 	NTour<8,
 	write('joueur blanc '),write(NTour),write(' eme tour'),nl,
 	initJ(B,N,B2),
 	display_board(B2,N),
 	NTour2 is (NTour + 1),
-	playerVSplayer(N,B2,NTour2,2).
+	win(B2,W2,4),
+	playerVSplayer(N,B2,NTour2,2,W2).
 
-	playerVSplayer(B,N,NTour,0):-
+	playerVSplayer(B,N,NTour,0,W):-
 	NTour is 8,
-	playerVSplayer(B,N,NTour,1).
+	playerVSplayer(B,N,NTour,1,W).
 	
-playerVSplayer(B,N,NTour,2):-
+playerVSplayer(B,N,NTour,2,W):-
+	W<4,
 	NTour<8,
-	write('joueur noir'),write(NTour),write(' eme tour'),nl,
+	write('joueur noir '),write(NTour),write(' eme tour'),nl,
 	initJ(B,N,B2),
 	display_board(N,B2),
 	NTour2 is (NTour + 1),
-	playerVSplayer(N,B2,NTour2,0).
+	win(B2,W2,5),
+	playerVSplayer(N,B2,NTour2,0,W2).
 
 	playerVSplayer(B,N,NTour,2):-
 	NTour is 8,
-	playerVSplayer(B,N,NTour,1).
+	playerVSplayer(B,N,NTour,1,W).
 	
-playerVSplayer(B,N,NTour,1):-
+	
+playerVSplayer(B,N,NTour,1,0):-
+	W<4,
 	write('joueur blanc '),write(NTour),write(' eme tour'),nl,
 	askFrom(B,N,F),
-	askTo(B,N,V),
-	move(B,V,To,N,B2),
-	display_board(B2,N)B2),
+	askTo(B,N,To),
+	move(B,F,To,B2),
+	display_board(B2,N),
 	NTour2 is (NTour + 1),
-	playerVSplayer(N,B2,NTour2,3).
+	win(B2,W2,4),
+	playerVSplayer(N,B2,NTour2,3,W2).
 	
-playerVSplayer(B,N,NTour,3):-
+playerVSplayer(B,N,NTour,3,0):-
+	W<4,
 	write('joueur noir '),write(NTour),write(' eme tour'),nl,
 	askFrom(B,N,F),
-	askTo(B,N,V),
-	move(B,V,To,N,B2),
+	askTo(B,N,To),
+	move(B,V,To,B2),
 	display_board(N,B2),
 	NTour2 is (NTour + 1),
-	playerVSplayer(N,B2,NTour2,1).
+	win(B2,W2,5),
+	playerVSplayer(N,B2,NTour2,1,W2).
 
 % demande la position de depart
 % askFrom(+BoardJ1,+BoardJ2,-From)
@@ -165,7 +180,7 @@ askFrom(B,N,From):-
 	LT1 is ((L1*10)-10),
 	T is (LT1+C1),!,
 	not(member(T,N)),
-	not(member(T,B)),
+	member(T,B),
 	From = T.
 
 askFrom(B,N,From):-
@@ -196,21 +211,21 @@ initO(B,N,B2):-
 
 	
 % demande la position d'arrivé
-% askTo(+From,+Adv,-To)
-askTo(From,Adv,To):-
+% askTo(B,N,+From,-To)
+askTo(B,N,From,To):-
 	write('entrez le numéro de la ligne voulue'),nl,
 	ask_i(L1,1,5),
 	write('entrez le numéro de la colonne voulue'),nl,
 	ask_i(C1,1,5),
-	getPossibleMovement(From,N,Pos),
-	LT1 is ((L1*10)-10),
+	LT1 is ((L1*10)-10),	
 	T is (LT1+C1),
-	member(T,Pos),!,
-	To = T .
+	not(member(T,N)),
+	not(member(T,B)),!,
+	To is T.
 
-askTo(From,N,To):-
+askTo(B,N,From,To):-
 	write('mauvaise position'),nl,
-	askTo(From,N,To).
+	askTo(B,NFrom,To).
 	
 % demande un entier entre Min et Max
 % ask_i(-I,+Min,+Max)

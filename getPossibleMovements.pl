@@ -46,14 +46,14 @@ d8(L1, L2, A, B, L4):-member(A, L1),!, deplacement8(A,B),
 
 
 %fct de déplacement
-deplacement1(A,B):- B is A+1,(B mod 11)<6,!.
-deplacement2(A,B):- B is A+10,B<46,(B mod 11)<6,!.
-deplacement3(A,B):- B is A+11,B<46,(B mod 11)<6,!.
-deplacement4(A,B):- B is A+9,B<46,(B mod 11)<6,!.
-deplacement5(A,B):- B is A-1, B>0,(B mod 11)<6,!.
-deplacement6(A,B):- B is A-10,B>0,(B mod 11)<6,!.
-deplacement7(A,B):- B is A-11,B>0,(B mod 11)<6,!.
-deplacement8(A,B):- B is A-9,B>0,(B mod 11)<6,!.
+deplacement1(A,B):- B is A+1,(B mod 10)<6,(B mod 10)>0,!.
+deplacement2(A,B):- B is A+10,B<46,(B mod 10)<6,(B mod 10)>0,!.
+deplacement3(A,B):- B is A+11,B<46,(B mod 10)<6,(B mod 10)>0,!.
+deplacement4(A,B):- B is A+9,B<46,(B mod 10)<6,(B mod 10)>0,!.
+deplacement5(A,B):- B is A-1, B>0,(B mod 10)<6,(B mod 10)>0,!.
+deplacement6(A,B):- B is A-10,B>0,(B mod 10)<6,(B mod 10)>0,!.
+deplacement7(A,B):- B is A-11,B>0,(B mod 10)<6,(B mod 10)>0,!.
+deplacement8(A,B):- B is A-9,B>0,(B mod 10)<6,(B mod 10)>0,!.
 
 
 add(X,L, [X|L]).

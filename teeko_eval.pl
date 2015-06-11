@@ -35,7 +35,7 @@ searchBest(_J, _Adv, [], _Prof, Alpha, _Beta, Move, _, [Move,Alpha]) :-
 searchBest(J, Adv, [[X1, X2, X3, X4]|Mvmt], Prof, Alpha, Beta, R, OAdv, BestMove) :-
 	move(Adversaire, From, To, N, NAdversaire),
 	getAdv(Joueur, OtherJoueurR),
-	alphaBeta(OtherJoueurR, Profondeur, NAdversaire, Alpha, Beta, _OtherCoup, OriginalAdversaire, Value)
+	alphaBeta(OtherJoueurR, Profondeur, NAdversaire, Alpha, Beta, _OtherCoup, OriginalAdversaire, Value),
 	Value1 is -Value,		% negamax
 	cutBranches(Joueur,[[Fx,Fy],[Tx,Ty],N], OriginalAdversaire, Value1,Profondeur,Alpha,Beta,Moves,Adversaire,R,BestMove).
 
