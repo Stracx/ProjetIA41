@@ -33,10 +33,26 @@ alphaBeta(J, Adv, Prof, Alpha, Beta, Depl, OAdv, Val):-
 % Retourne le meilleur coup à jouer.
 searchBest(_J, _Adv, [], _Prof, Alpha, _Beta, Depl, _, [Depl,Alpha]) :- !.
 
+searchBest(J, Adv, [[X1]|Mvmt], Prof, Alpha, Beta, R, OAdv, BestDepl) :-
+	alphaBeta(Adv, [X1], Prof, Alpha, Beta, _AutreCoup, OAdv, Val),!,
+	Val1 is -Val,		% negamax
+	cutBranches(J,Adv, [X1], OAdv, Val1,Prof,Alpha,Beta,Mvmt,R,BestDepl),!.
+
+searchBest(J, Adv, [[X1, X2]|Mvmt], Prof, Alpha, Beta, R, OAdv, BestDepl) :-
+	alphaBeta(Adv, [X1, X2], Prof, Alpha, Beta, _AutreCoup, OAdv, Val),!,
+	Val1 is -Val,		% negamax
+	cutBranches(J,Adv, [X1, X2], OAdv, Val1,Prof,Alpha,Beta,Mvmt,R,BestDepl),!.
+
+searchBest(J, Adv, [[X1, X2, X3]|Mvmt], Prof, Alpha, Beta, R, OAdv, BestDepl) :-
+	alphaBeta(Adv, [X1, X2, X3], Prof, Alpha, Beta, _AutreCoup, OAdv, Val),!,
+	Val1 is -Val,		% negamax
+	cutBranches(J,Adv, [X1, X2, X3], OAdv, Val1,Prof,Alpha,Beta,Mvmt,R,BestDepl),!.
+
 searchBest(J, Adv, [[X1, X2, X3, X4]|Mvmt], Prof, Alpha, Beta, R, OAdv, BestDepl) :-
-	alphaBeta(Adv, [X2, X2, X3, X4], Prof, Alpha, Beta, _AutreCoup, OAdv, Val),!,
+	alphaBeta(Adv, [X1, X2, X3, X4], Prof, Alpha, Beta, _AutreCoup, OAdv, Val),!,
 	Val1 is -Val,		% negamax
 	cutBranches(J,Adv, [X1, X2, X3, X4], OAdv, Val1,Prof,Alpha,Beta,Mvmt,R,BestDepl),!.
+
 
 
 % cutBranches(+Joueur, +Adversaire, +Depl,+OriginalAdversaire,+Val,+Profondeur,+Alpha,+Beta,+Mouvements,+_R,+BestDepl)
