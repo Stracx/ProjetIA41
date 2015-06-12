@@ -3,7 +3,6 @@
 
 % play
 play:-
-	originalBoard(A),
 	write('1: joueur vs joueur'),nl,
 	write('2: joueur vs ia'),nl,
 	write('3: ia vs ia'),nl,
@@ -72,7 +71,7 @@ iaVSia(B,N,NTour,D,D2):-
 % ia vs joueur
 % playerVSia(+BoardJ1,BoardJ2,+NbdeTour,+Profondeur)
 playerVSia(B,N,NTour,D):-
-	write('joueur '),write(NTour),write(' tour'),nl,
+	write('joueur '),write(NTour),write('eme tour'),nl,
 	NTour mod 2 =:= 1,
 	initJ(B,N,B2),
 	display_board(B2,N),
