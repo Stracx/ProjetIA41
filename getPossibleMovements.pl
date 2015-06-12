@@ -14,7 +14,7 @@ getPossibleMovementL([X1, X2, X3, X4], A, L) :-
 
 
 
-%getPossibleMovementX(+Depart, +PionsJoueur, +PionsAdversaire, -ListPossibleMovements, +NumeroIteration ) 
+%getPossibleMovementX(+Depart, +PionsJoueur, +PionsAdversaire, -ListeMvmtPossibles, +NumeroIteration ) 
 
 getPossibleMovementX(_, _, _, [], 0).
 
@@ -51,6 +51,7 @@ d8(L1, L2, A, B, L4):-member(A, L1),!, deplacement8(A,B),
 
 
 %fct de déplacement
+deplacement(A,B):-deplacement1(A,B);deplacement2(A,B);deplacement3(A,B);deplacement4(A,B);deplacement5(A,B);deplacement6(A,B);deplacement7(A,B);deplacement8(A,B).
 deplacement1(A,B):- B is A+1,(B mod 10)<6,(B mod 10)>0,!.
 deplacement2(A,B):- B is A+10,B<46,(B mod 10)<6,(B mod 10)>0,!.
 deplacement3(A,B):- B is A+11,B<46,(B mod 10)<6,(B mod 10)>0,!.
@@ -60,14 +61,17 @@ deplacement6(A,B):- B is A-10,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement7(A,B):- B is A-11,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement8(A,B):- B is A-9,B>0,(B mod 10)<6,(B mod 10)>0,!.
 
-deplacement(A,B):-deplacement1(A,B);deplacement2(A,B);deplacement3(A,B);deplacement4(A,B);deplacement5(A,B);deplacement6(A,B);deplacement7(A,B);deplacement8(A,B).
-
+%fonction d'ajout
+%add(+ElementAAjouter, +Liste, ?ListeAvecAjout)
 add(X,L, [X|L]).
 
-% fct de swap
+% fonction de swap
+%swap(+ListeAChanger, +ElementAChanger, +Element, ?ListeChangee)
 swap([C|R1], A, B, [C|R2]):- C\=A,swap(R1, A, B, R2).
 swap([A|R], A, B, [B|R]).
 
+%crée une liste de liste à partir d'une liste
+%ldeL(+Liste, ?ListeDeListe)
 ldeL([], []).
 ldeL([X|R], [[X]|R2]):-ldeL(R, R2).
 
