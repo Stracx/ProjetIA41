@@ -17,16 +17,16 @@ playChoice(1,B,N):-
 	playerVSplayer([],[],1,0,0).
 
 playChoice(2,B,N):-
-	write('choisissez une IA d un niveau entre 1 et 2'),nl,
-	ask_i(D,1,2),
+	write('choisissez une IA d un niveau entre 1 et 4'),nl,
+	ask_i(D,1,4),
 	display_board([],[]),
 	playerVSia([],[],0,D,0,0).
 
 playChoice(3,B,N):-
-	write('choisissez une IA d un niveau entre 1 et 2 pour l ia0'),nl,
-	ask_i(D0,1,2),
-	write('choisissez une IA d un niveau entre 1 et 2 pour ia10'),nl,
-	ask_i(D1,1,2),
+	write('choisissez une IA d un niveau entre 1 et 4 pour l ia blanche'),nl,
+	ask_i(D0,1,4),
+	write('choisissez une IA d un niveau entre 1 et 4 pour l ia noire '),nl,
+	ask_i(D1,1,4),
 	display_board([],[]),
 	iaVSia([],[],0,D0,D1,0,0).
 
