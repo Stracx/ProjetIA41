@@ -51,6 +51,7 @@ d8(L1, L2, A, B, L4):-member(A, L1),!, deplacement8(A,B),
 
 
 %fct de déplacement
+deplacement(A,B):-deplacement1(A,B);deplacement2(A,B);deplacement3(A,B);deplacement4(A,B);deplacement5(A,B);deplacement6(A,B);deplacement7(A,B);deplacement8(A,B).
 deplacement1(A,B):- B is A+1,(B mod 10)<6,(B mod 10)>0,!.
 deplacement2(A,B):- B is A+10,B<46,(B mod 10)<6,(B mod 10)>0,!.
 deplacement3(A,B):- B is A+11,B<46,(B mod 10)<6,(B mod 10)>0,!.
@@ -60,13 +61,8 @@ deplacement6(A,B):- B is A-10,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement7(A,B):- B is A-11,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement8(A,B):- B is A-9,B>0,(B mod 10)<6,(B mod 10)>0,!.
 
-<<<<<<< HEAD
 %fonction d'ajout
 %add(+ElementAAjouter, +Liste, ?ListeAvecAjout)
-=======
-deplacement(A,B):-deplacement1(A,B);deplacement2(A,B);deplacement3(A,B);deplacement4(A,B);deplacement5(A,B);deplacement6(A,B);deplacement7(A,B);deplacement8(A,B).
-
->>>>>>> 557ce7535dc785ce60c2d83efe22d176abfc1854
 add(X,L, [X|L]).
 
 % fonction de swap
