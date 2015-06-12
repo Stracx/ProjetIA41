@@ -1,6 +1,6 @@
 :- include('ordonner.pl').
 
-%getPossibleMovementL(+Joueur, +Joueur, +Adversaire, -ListeMvmt ).
+%getPossibleMovementL(+Joueur, +Adversaire, -ListeMvmt ).
 
  getPossibleMovementL([], A, L) :- listeDepart(LD),subtract(LD,A, L2), ldeL(L2, L), ! .
 getPossibleMovementL([X1], A, L):- getPossibleMovementX(X1, [X1, X1], A, L, 8),!.
@@ -63,7 +63,6 @@ deplacement8(A,B):- B is A-9,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement(A,B):-deplacement1(A,B);deplacement2(A,B);deplacement3(A,B);deplacement4(A,B);deplacement5(A,B);deplacement6(A,B);deplacement7(A,B);deplacement8(A,B).
 
 add(X,L, [X|L]).
-
 
 % fct de swap
 swap([C|R1], A, B, [C|R2]):- C\=A,swap(R1, A, B, R2).
