@@ -14,7 +14,7 @@ getPossibleMovementL([X1, X2, X3, X4], A, L) :-
 
 
 
-%getPossibleMovementX(+Depart, +PionsJoueur, +PionsAdversaire, -ListPossibleMovements, +NumeroIteration ) 
+%getPossibleMovementX(+Depart, +PionsJoueur, +PionsAdversaire, -ListeMvmtPossibles, +NumeroIteration ) 
 
 getPossibleMovementX(_, _, _, [], 0).
 
@@ -60,13 +60,17 @@ deplacement6(A,B):- B is A-10,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement7(A,B):- B is A-11,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement8(A,B):- B is A-9,B>0,(B mod 10)<6,(B mod 10)>0,!.
 
-
+%fonction d'ajout
+%add(+ElementAAjouter, +Liste, ?ListeAvecAjout)
 add(X,L, [X|L]).
 
-% fct de swap
+% fonction de swap
+%swap(+ListeAChanger, +ElementAChanger, +Element, ?ListeChangee)
 swap([C|R1], A, B, [C|R2]):- C\=A,swap(R1, A, B, R2).
 swap([A|R], A, B, [B|R]).
 
+%crée une liste de liste à partir d'une liste
+%ldeL(+Liste, ?ListeDeListe)
 ldeL([], []).
 ldeL([X|R], [[X]|R2]):-ldeL(R, R2).
 
