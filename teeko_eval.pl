@@ -57,7 +57,7 @@ searchBest(J, Adv, [[X1, X2, X3, X4]|Mvmt], Prof, Alpha, Beta, R, OJ, BestDepl) 
 
 % cutBranches(+Joueur, +Adversaire, +Deplacement,+OriginalJoueur,+Valeur,+Profondeur,+Alpha,+Beta,+Mouvements,+_R,+MeilleurDeplacement)
 % Permet de couper certaines branches de l'arbre lorsqu'elle sort des bornes alpha - beta
-cutBranches(J, Adv, Depl, OJ, Val,Prof,Alpha,Beta,Mvmt,_R,MeilDepl) :-
+cutBranches(J, Adv, Depl, OJ, Val,Prof,Alpha,Beta,Mvmt,_R,BestDepl) :-
 	Alpha < Val,
 	Val < Beta, !,	% structure "si, alors"
 	searchBest(J, Adv, Mvmt,Prof,Val,Beta,Depl, OJ, BestDepl),!.
