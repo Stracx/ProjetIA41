@@ -1,11 +1,16 @@
 :- include('ordonner.pl').
 
 %getPossibleMovementL(+Joueur, +Joueur, +Adversaire, -ListeMvmt ).
+
+ getPossibleMovementL([], A, L) :- listeDepart(LD),subtract(LD,A, L2), ldeL(L2, L), ! .
+getPossibleMovementL([X1], A, L):- getPossibleMovementX(X1, [X1, X1], A, L, 8),!.
+getPossibleMovementL([X1, X2], A, L):- getPossibleMovementX(X1, [X1, X1, X2], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X2], A, L2, 8),
+ merge(L1, L2, L),!.
+getPossibleMovementL([X1, X2, X3], A, L):- getPossibleMovementX(X1, [X1, X1, X2, X3], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X2, X3], A, L2, 8), getPossibleMovementX(X3, [X1, X2, X3, X3], A, L3, 8),
+ merge(L1, L2, L22), merge(L3, L22, L),!.
 getPossibleMovementL([X1, X2, X3, X4], A, L) :- 
  getPossibleMovementX(X1, [X1, X2, X3, X4], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X3, X4], A, L2, 8), getPossibleMovementX(X3, [X1, X2, X3, X4], A, L3, 8), getPossibleMovementX(X4,[X1, X2, X3, X4], A, L4, 8),
- merge(L1, L2, L22), merge(L3, L4, L44), merge(L22, L44, L).
-
-
+ merge(L1, L2, L22), merge(L3, L4, L44), merge(L22, L44, L),!.
 
 
 
@@ -62,3 +67,11 @@ add(X,L, [X|L]).
 % fct de swap
 swap([C|R1], A, B, [C|R2]):- C\=A,swap(R1, A, B, R2).
 swap([A|R], A, B, [B|R]).
+
+%getPossibleMovementL(+Joueur, +Joueur, +Adversaire, -ListeMvmt ).
+
+
+ldeL([], []).
+ldeL([X|R], [[X]|R2]):-ldeL(R, R2).
+
+listeDepart([1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45]).
