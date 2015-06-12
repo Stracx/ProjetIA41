@@ -68,9 +68,6 @@ add(X,L, [X|L]).
 swap([C|R1], A, B, [C|R2]):- C\=A,swap(R1, A, B, R2).
 swap([A|R], A, B, [B|R]).
 
-%getPossibleMovementL(+Joueur, +Joueur, +Adversaire, -ListeMvmt ).
-
-
 ldeL([], []).
 ldeL([X|R], [[X]|R2]):-ldeL(R, R2).
 
