@@ -60,6 +60,7 @@ deplacement6(A,B):- B is A-10,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement7(A,B):- B is A-11,B>0,(B mod 10)<6,(B mod 10)>0,!.
 deplacement8(A,B):- B is A-9,B>0,(B mod 10)<6,(B mod 10)>0,!.
 
+deplacement(A,B):-deplacement1(A,B);deplacement2(A,B);deplacement3(A,B);deplacement4(A,B);deplacement5(A,B);deplacement6(A,B);deplacement7(A,B);deplacement8(A,B).
 
 add(X,L, [X|L]).
 
