@@ -49,14 +49,14 @@ iaVSia(N,B,NTurn,D0,D1,1):-
 
 iaVSia(B,N,NTurn,D0,D1,1,0):-
 	write('joueur blanc '),write(NTurn),write(' eme tour'),nl,
-	alphaBeta(B,N,D0,To,_),
+	alphaBeta(B,N,D0,To,_),!,
 	display_board(To,N),
 	NTurn2 is NTurn +1,
 	iaVSia(To,N1,NTurn2,D0,D1,1).
 
 iaVSia(B,N,NTurn,D0,D1,1,1):-
 	write('joueur noir '),write(NTurn),write(' eme tour'),nl,
-	alphaBeta(N,B,D1,To,_),
+	alphaBeta(N,B,D1,To,_),!,
 	display_board(B,To),
 	NTurn2 is NTurn +1,
 	iaVSia(B,To,NTurn2,D0,D1,0).
@@ -68,17 +68,17 @@ iaVSia(B,N,NTour,D,D2):-
 % ia vs joueur
 % playerVSia(+BoardJ1,BoardJ2,+NbdeTour,+Profondeur)
 playerVSia(B,N,NTour,D,0):-
-	write('joueur '),write(NTour),write('eme tour'),nl,
+	write('joueur '),write(NTour),write(' eme tour'),nl,
 	initJ(B,N,B2),
 	display_board(B2,N),
 	NTour2 is NTour + 1,
 	playerVSia(B1,N,NTour2,D,1).
 
-playerVSia(N,B,NTour,D,1):-
-	alphaBeta(B,N,D,T,_),
-	display_board(B,N2),
+playerVSia(B,N,NTour,D,1):-
+	alphaBeta(N,B,0,T,_),
+	display_board(B,T),
 	NTour2 is NTour + 1,
-	playerVSia(B,N2,NTour2,D,0).
+	playerVSia(B,T,NTour2,D,0),!.
 	
 playerVSia(B,N,NTour,D):-
 	NTour =:= 8,
@@ -96,7 +96,7 @@ playerVSia(B,N,NTour,D,1,0):-
 
 playerVSia(N,B,NTour,D,1,1):-
 	NTour mod 2 =:= 1,
-	alphaBeta(N,B,D,To,_),
+	alphaBeta(N,B,D,To,_),!,
 	display_board(B,To),
 	NTour2 is NTour + 1,
 	playerVSia(B1,N,NTour2,D).
@@ -215,11 +215,11 @@ askTo(B,N,From,To):-
 ask_i(I,Min,Max):-
 	read(R),
 	integer(R),
-	between(Min, Max, R),
+	between(Min, Max, R),!,
 	I is R.
 	
 ask_i(I,Min,Max):-
-	writeln('Choix invalide. Reprecisez.'),
+	writeln('Choix invalideeeee. Reprecisez.'),
 	ask_i(I,Min,Max).
 	
 	
