@@ -22,7 +22,7 @@ ligne([],[],_,(-4),S,0) :- S is (-1000),ligne(_,_,_,_,_,1),!.
 ligne([],[X2|R2],[X3|R3],S,St,0):- X2 is X3, S2 is (S-1), ligne([], R2, R3, S2,St,0),!.
 ligne([],[X2|R2],[X3|R3],S,St,0):- X2<X3, ligne([], R2, [X3|R3], S,St,0),!.
 ligne([],[X2|R2],[X3|R3],S,St,0):- X2>X3, ligne([], [X2|R2], R3, S,St,0),!.
-ligne([X|R],[],[X3|R3],S,St,0):- X is X3, S2 is (S+1),ligne(R, [], R3, S2,St,0),!.
+ligne([X|R],[],[X3|R3],S,St,0):- X =:= X3, S2 is (S+1),ligne(R, [], R3, S2,St,0),!.
 ligne([X|R],[],[X3|R3],S,St,0):- X<X3, ligne(R, [], [X3|R3], S,St,0),!.
 ligne([X|R],[],[X3|R3],S,St,0):- X>X3, ligne([X|R], [], R3, S,St,0),!.
 
@@ -39,6 +39,8 @@ ligne([X|R],[X2|R2],[X3|R3],S,St,0):- X<X3, X2<X3, ligne(R, R2, [X3|R3], S,St,0)
 ligne(_,_,_,_,_,1).
 
 %44 conditions de victoires 
+score([],[],_,0).
+
 score(B,N,_,St):-ligne(B,N,[1, 2, 3, 4],0,S0),
 ligne(B,N,[2, 3, 4, 5],0,S1),!,
 ligne(B,N,[11, 12, 13, 14],0,S2),

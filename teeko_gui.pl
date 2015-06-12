@@ -3,7 +3,7 @@
 
 % play
 play:-
-	
+	originalBoard(A),
 	write('1: joueur vs joueur'),nl,
 	write('2: joueur vs ia'),nl,
 	write('3: ia vs ia'),nl,
@@ -13,57 +13,57 @@ play:-
 % playChoice(+Choice,+BoardB, +BoardN)
 
 playChoice(1,B,N):-
-	display_board(B,N),
-	playerVSplayer(B,N,1,0,0).
+	display_board([],[]),
+	playerVSplayer([],[],1,0,0).
 
 playChoice(2,B,N):-
-	write('choisissez une IA d un niveau entre 1 et 4'),nl,
-	ask_i(D,1,4),
-	display_board(B,N),
-	playerVSia(B,N,0,D).
+	write('choisissez une IA d un niveau entre 1 et 2'),nl,
+	ask_i(D,1,2),
+	display_board([],[]),
+	playerVSia([],[],0,D).
 
 playChoice(3,B,N):-
-	write('choisissez une IA d un niveau entre 1 et 4 pour l ia0'),nl,
-	ask_i(D0,1,4),
-	write('choisissez une IA d un niveau entre 1 et 4 pour ia10'),nl,
-	ask_i(D1,1,4),
-	display_board(B,N),
-	iaVSia(B,N,0,D0,D1).
+	write('choisissez une IA d un niveau entre 1 et 2 pour l ia0'),nl,
+	ask_i(D0,1,2),
+	write('choisissez une IA d un niveau entre 1 et 2 pour ia10'),nl,
+	ask_i(D1,1,2),
+	display_board([],[]),
+	iaVSia([],[],0,D0,D1).
 
 
 	% ia vs ia
 % iaVSia(+BoardJ1,BoardJ2,+NbdeTour,+DepthIa0,+DepthIa1)
-iaVSia(B,N,0,D0,D1):-
-	write('joueur '),write(0),write(' tour'),nl,
+iaVSia(B,N,NTurn,D0,D1):-
+	write('joueur blanc'),write(NTurn),write(' eme tour'),nl,
 	NTour mod 2 =:= 0,
-	alphaBeta(0,D0,B,N,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	initO(B,N,C,B1),
-	display_board(B1,N1),
-	iaVSia(B1,N1,NTurn,D0,D1).
-
-iaVSia(N,B,1,D0,D1):-
-	write('joueur '),write(1),write(' tour'),nl,
-	NTour mod 2 =:= 1,
-	alphaBeta(1,D,N,B,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	initO(N,B,C,N2),
-	display_board(B,N2),
-	iaVSia(B,N2,NTurn,D0,D1).
-
-iaVSia(B,N,0,D0,D1,1):-
-	write('joueur '),write(0),write(' tour'),nl,
-	NTour mod 2 =:= 0,
-	alphaBeta(0,D0,B,N,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	move(B,N,From,To,N,B1),
+	initO(B,N,D0,B1),
 	display_board(B1,N),
-	iaVSia(B1,N1,NTurn,D0,D1).
+	NTurn2 is NTurn +1,
+	iaVSia(B1,N,NTurn2,D0,D1).
 
-iaVSia(B,N,1,D0,D1,1):-
-	write('joueur '),write(1),write(' tour'),nl,
+iaVSia(N,B,NTurn,D0,D1):-
+	write('joueur noir'),write(NTurn),write(' eme tour'),nl,
 	NTour mod 2 =:= 1,
-	alphaBeta(1,D1,B,N,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	move(B,N,From,To,N,B1),
-	display_board(N,B1),
-	iaVSia(N,B1,NTurn,D0,D1).
+	initO(N,B,D1,N2),
+	display_board(B,N2),
+	NTurn2 is NTurn +1,
+	iaVSia(B,N2,NTurn2,D0,D1).
+
+iaVSia(B,N,NTurn,D0,D1,1):-
+	write('joueur '),write(NTurn),write(' eme tour'),nl,
+	NTour mod 2 =:= 0,
+	alphaBeta(B,N,D0,To,_),
+	display_board(To,N),
+	NTurn2 is NTurn +1,
+	iaVSia(To,N1,NTurn2,D0,D1).
+
+iaVSia(B,N,NTurn,D0,D1,1):-
+	write('joueur '),write(NTurn),write(' eme tour'),nl,
+	NTour mod 2 =:= 1,
+	alphaBeta(N,B,D1,To,_),
+	display_board(B,To),
+	NTurn2 is NTurn +1,
+	iaVSia(B,To,NTurn2,D0,D1).
 
 iaVSia(B,N,NTour,D,D2):-
 	NTour =:= 8,
@@ -72,19 +72,16 @@ iaVSia(B,N,NTour,D,D2):-
 % ia vs joueur
 % playerVSia(+BoardJ1,BoardJ2,+NbdeTour,+Profondeur)
 playerVSia(B,N,NTour,D):-
-	NTour<8,
 	write('joueur '),write(NTour),write(' tour'),nl,
 	NTour mod 2 =:= 1,
-	initJ(B,N,C,B2),
-	display_board(B1,N),
+	initJ(B,N,B2),
+	display_board(B2,N),
 	NTour2 is NTour + 1,
 	playerVSia(B1,N,NTour2,D).
 
 playerVSia(N,B,NTour,D):-
-	NTour<8,
 	NTour mod 2 =:= 0,
-	alphaBeta(1,D,B,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	initO(N,B,C,N2),
+	initO(N,B,D,N2),
 	display_board(B,N2),
 	NTour2 is NTour + 1,
 	playerVSia(B,N2,NTour2,D).
@@ -96,18 +93,17 @@ playerVSia(B,N,NTour,D):-
 playerVSia(B,N,NTour,D,1):-
 	write('joueur '),write(NTour),write(' tour'),nl,
 	NTour mod 2 =:= 0,
-	askTo(B,N,V),
-	move(B,V,To,N,B1),
+	askFrom(B,N,V),
+	askTo(B,N,To),
+	move(B,V,To,B1),
 	display_board(B1,N),
 	NTour2 is NTour + 1,
 	playerVSia(B1,N,NTour2,D).
 
 playerVSia(N,B,NTour,D,1):-
 	NTour mod 2 =:= 1,
-	alphaBeta(1,D,B,-20000,20000,[[Fx,Fy],[Tx,Ty],N],_,_),
-	askTo(B,N,V),
-	move(N,V,To,B,N1),
-	display_board(B,N1),
+	alphaBeta(N,B,D,To,_),
+	display_board(B,To),
 	NTour2 is NTour + 1,
 	playerVSia(B1,N,NTour2,D).
 
@@ -175,7 +171,7 @@ askFrom(B,N,From):-
 	write('entrez le numéro de la colonne'),nl,
 	ask_i(C,1,5),
 	LT1 is ((L*10)-10),
-	T is (LT1+C),!,
+	T is (LT1+C),
 	not(member(T,N)),
 	member(T,B),
 	From is T,!.
@@ -201,9 +197,9 @@ initJ(B,N,B2):-
 	write('Mauvaise position'),nl,
 	askFrom(B,N,B2).
 	
-initO(B,N,B2):- 
-	%alphaBéta
-	ordonner([B|T],B2).
+initO(B,N,D,B2):- 
+	alphaBeta(B,N,D,T,_),
+	move(B,0,T,B2).
 
 
 	
@@ -218,6 +214,7 @@ askTo(B,N,From,To):-
 	T is (LT1+C1),
 	not(member(T,N)),
 	not(member(T,B)),
+	deplacement(From,T),
 	To is T.
 
 askTo(B,N,From,To):-
