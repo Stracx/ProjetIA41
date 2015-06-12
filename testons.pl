@@ -40,6 +40,7 @@ ligne(_,_,_,_,_,1).
 
 %44 conditions de victoires 
 score([],[],_,0).
+score(A,[],_,0).
 
 score(B,N,_,St):-ligne(B,N,[1, 2, 3, 4],0,S0),
 ligne(B,N,[2, 3, 4, 5],0,S1),!,
