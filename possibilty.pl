@@ -17,7 +17,7 @@ possibility([12, 22, 32, 42]).
 possibility([3, 13, 23, 33]).
 possibility([13, 23, 33, 43]).
 possibility([4, 14, 24, 34]).
-possibility([14, 24,4 34, 44]).
+possibility([14, 24,34, 44]).
 possibility([5, 15, 25, 35]).
 possibility([15, 25, 35, 45]).
 
