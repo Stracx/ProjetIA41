@@ -1,5 +1,6 @@
  :- include('teeko_eval.pl').
 :- include('teeko_move.pl').
+:- include('getPossibleMovements.pl').
 
 % play
 play:-
