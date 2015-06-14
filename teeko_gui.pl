@@ -114,8 +114,6 @@ playerVSia(B,N,NTour,D,1,0):-
 	win(T,W2,5),
 	playerVSia(B,T,NTour2,D,0,W2),!.
 	
-
-	
 playerVSia(B,N,NTour,D,1,0,0):-
 	write('joueur blanc '),write(NTour),write(' tour'),nl,
 	askFrom(B,N,V),
