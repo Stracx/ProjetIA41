@@ -15,7 +15,7 @@ alphaBeta(J, Adv, Prof, Depl, Val):-
 alphaBeta(J, Adv, 0, _Alpha, _Beta, _Depl, _OJ, Val) :-
 	!, score(J, Adv, 0, Val).
 
-alphaBeta(J, Adv, _, _Alpha, _Beta, _Depl, _OJ, Val) :- (possibility(J);possibility(Adv)),
+alphaBeta(J, Adv, _, _Alpha, _Beta, _Depl, _OJ, Val) :- (possibility(J)),
 	!, score(J, Adv, 0, Val).
 
 % Si Joueur est le Joueur original avec lequel on a appelé le prédicat, on ne décrémente pas D et on cherche le meilleur mouvement possible
