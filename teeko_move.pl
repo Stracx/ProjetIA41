@@ -10,5 +10,5 @@ enlever(F,[F|R],R).
 enlever(F,[X|R],[X|R2]):-enlever(F,R,R2).
 
 %win(+Board,-Win,+J)
-win(B,W,J):-possibility(B),W is J,! .
+win(B,W,J):-possibility(B),!,W is J .
 win(B,W,J):-W is 0,!.
