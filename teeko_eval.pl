@@ -1,5 +1,7 @@
 :- include('getPossibleMovements.pl').
 :- include('testons.pl').
+:- include('possibilty.pl').
+
 
 % alphaBeta(+Joueur, +Adversaire, +Profondeur +Alpha, +Beta, ?Deplacement, +OriginalJoueur, ?Val)
 % Algorithme de Minmax avec simplification negamax et élagage Alpha-Beta
@@ -11,6 +13,9 @@ alphaBeta(J, Adv, Prof, Depl, Val):-
 
 % Cas d'arrêt quand la profondeur Prof atteint 0
 alphaBeta(J, Adv, 0, _Alpha, _Beta, _Depl, _OJ, Val) :-
+	!, score(J, Adv, 0, Val).
+
+alphaBeta(J, Adv, _, _Alpha, _Beta, _Depl, _OJ, Val) :- (possibility(J);possibility(Adv)),
 	!, score(J, Adv, 0, Val).
 
 % Si Joueur est le Joueur original avec lequel on a appelé le prédicat, on ne décrémente pas D et on cherche le meilleur mouvement possible
