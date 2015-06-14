@@ -2,17 +2,25 @@
 
 %getPossibleMovementL(+Joueur, +Adversaire, -ListeMvmt ).
 
- getPossibleMovementL([], A, L) :- listeDepart(LD),subtract(LD,A, L2), ldeL(L2, L), ! .
-getPossibleMovementL([X1], A, L):- getPossibleMovementX(X1, [X1, X1], A, L, 8),!.
-getPossibleMovementL([X1, X2], A, L):- getPossibleMovementX(X1, [X1, X1, X2], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X2], A, L2, 8),
- merge(L1, L2, L),!.
-getPossibleMovementL([X1, X2, X3], A, L):- getPossibleMovementX(X1, [X1, X1, X2, X3], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X2, X3], A, L2, 8), getPossibleMovementX(X3, [X1, X2, X3, X3], A, L3, 8),
- merge(L1, L2, L22), merge(L3, L22, L),!.
+getPossibleMovementL([], A, L) :- listeDepart(LD),subtract(LD,A, L2), ldeL(L2, L), ! .
+getPossibleMovementL([X1], A, L):- listeDepart(LD),subtract(LD,A, L2), subtract(L2, [X1], L22), ldeL(L22, L3), 
+				addinLofL(L3, X1, L4), ordonnerLofL(L4, L), ! .
+getPossibleMovementL([X1, X2], A, L):- listeDepart(LD),subtract(LD,A, L2), subtract(L2, [X1, X2], L22), ldeL(L22, L3),  
+				addinLofL(L3, X1, L4), addinLofL(L4, X2, L5), ordonnerLofL(L5, L), ! .
+getPossibleMovementL([X1, X2, X3], A, L):- listeDepart(LD),subtract(LD,A, L2), subtract(L2, [X1, X2, X3], L22), ldeL(L22, L3), 
+				addinLofL(L3, X1, L4), addinLofL(L4, X2, L5), addinLofL(L5, X3, L6), ordonnerLofL(L6, L), ! .
 getPossibleMovementL([X1, X2, X3, X4], A, L) :- 
  getPossibleMovementX(X1, [X1, X2, X3, X4], A, L1, 8), getPossibleMovementX(X2, [X1, X2, X3, X4], A, L2, 8), getPossibleMovementX(X3, [X1, X2, X3, X4], A, L3, 8), getPossibleMovementX(X4,[X1, X2, X3, X4], A, L4, 8),
  merge(L1, L2, L22), merge(L3, L4, L44), merge(L22, L44, L),!.
 
 
+
+%ajouter un element dans une liste de liste
+addinLofL([], X, []).
+addinLofL([L|R], X, [[X|L]|R2]):- addinLofL(R, X, R2).
+
+ordonnerLofL([], []).
+ordonnerLofL([L1|R1], [L2|R2]):-ordonner(L1, L2), ordonnerLofL(R1, R2).
 
 %getPossibleMovementX(+Depart, +PionsJoueur, +PionsAdversaire, -ListeMvmtPossibles, +NumeroIteration ) 
 
